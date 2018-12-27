@@ -1,5 +1,7 @@
 'use strict';
 
+const { logger } = require('../config/logger');
+
 class ServiceRegistry{
 
   constructor(){
@@ -21,16 +23,19 @@ class ServiceRegistry{
    * @apiFail {JSON Object} Message confirming service already registered
    */
   addService(intent, ip, port) {
-    const serviceKey = 'NP:' + intent + ip + port;
+    let updatedIp = ip.replace(/::ffff:/gi, '');
+    const serviceKey = 'NP:' + intent + updatedIp + port;
     this._cleanupService();
     if(!this._services[serviceKey]){
       this._services[serviceKey] = {};
       this._services[serviceKey].serviceKey = serviceKey;
       this._services[serviceKey].intent = intent;
-      this._services[serviceKey].ip = ip;
+      this._services[serviceKey].ip = updatedIp;
       this._services[serviceKey].port = port;
       this._services[serviceKey].timeout = new Date().getTime();
       
+      logger.info('Adding new service at ');
+      logger.info(JSON.stringify(this._services[serviceKey]));
       return {status: true, message: 'Service added'};
     }
     this._services[serviceKey].timeout += 120000;
@@ -71,7 +76,7 @@ class ServiceRegistry{
    * @private
    * 
    */
-  _cleanupServic () {
+  _cleanupService () {
     let currentTime = new Date().getTime();
     for(let key in this._services){
       if(this._services[key].timeout + 120000 < currentTime){

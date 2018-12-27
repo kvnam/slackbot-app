@@ -13,12 +13,10 @@ const witClientInit = () => {
 const witAsk = async (message) => {
   try {
     let data = await witClient.message(message, {});
-    logger.info(`Wit.AI response`);
-    console.log(data);
     return data;
   } catch (error) {
     logger.error(`Error getting Wit response ${JSON.stringify(err)}`);
-    console.log(error);
+    logger.error(JSON.stringify(error));
     return error;
   }
 }
