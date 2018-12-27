@@ -1,0 +1,20 @@
+{
+  "name": "Microservices_Slack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kavita N Ganguli",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/client": "^4.8.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "node-wit": "^5.0.0",
+    "winston": "^3.1.0"
+  }
+}
